@@ -11,10 +11,11 @@ export class PostsComponent implements OnInit {
 
   // posts: RootObject;
   posts: any;
+  urlLimit = '?_limit=10';
   private url = 'http://jsonplaceholder.typicode.com/posts';
 
   constructor(private http: HttpClient) {
-    http.get(this.url)
+    http.get(`${this.url}${this.urlLimit}`)
         .subscribe(
           response => {
           console.log(response);
