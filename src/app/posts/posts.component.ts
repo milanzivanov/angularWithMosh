@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ITemplate } from './../template';
+// import { Observable } from 'rxjs';
+
 
 
 @Component({
@@ -9,49 +12,40 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostsComponent implements OnInit {
 
-  // posts: RootObject;
-  posts: any;
+  posts: ITemplate;
+
   urlLimit = '?_limit=10';
   private url = 'http://jsonplaceholder.typicode.com/posts';
 
   constructor(private http: HttpClient) {
-    http.get(`${this.url}${this.urlLimit}`)
-        .subscribe(
-          response => {
-          console.log(response);
-          this.posts = response;
-          // this.posts = {
-          //   userId: this.posts.userId,
-          //   id: this.posts.id,
-          //   title: this.posts.title,
-          //   body: this.posts.body,
-          // };
-        });
   }
 
   ngOnInit() {
-  }
 
-
-  createPost(input: HTMLInputElement) {
-    let post: any = {
-      title: input.value
-    };
-    input.value = '';
-    this.http.post(this.url, post)
-      .subscribe(response => {
-        post.id = response;
-        // post['id'] = response;
-        this.posts.splice(0, 0, post);
-        console.log(response);
+    this.http.get(`${this.url}${this.urlLimit}`)
+    .subscribe(
+      response => {
+        // casting response to model interface
+        this.posts = <ITemplate>response;
+        // this.posts = response as Template;
       });
-  }
+
+    }
+
+  //   createPost(input: HTMLInputElement) {
+  //     let post: any = {
+  //         title: input.value
+  //     };
+  //   input.value = '';
+  //   this.http.post(this.url, post)
+  //     .subscribe(response => {
+  //       post.id = response as Template;
+  //       // post['id'] = response;
+  //       this.posts.slice(0, 0, post);
+  //       console.log(response);
+  //     });
+  // }
 
 }
 
-// interface RootObject {
-//   userId: number;
-//   id: number;
-//   title: string;
-//   body: string;
-// }
+

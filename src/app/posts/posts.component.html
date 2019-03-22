@@ -1,13 +1,15 @@
-<input
+<!-- <input
   (keyup.enter)="createPost(title)"
   #title
   placeholder="add item..."
   type="text"
-  class="form-control">
+  class="form-control"> -->
 
-<ul class="list-group">
-  <li *ngFor="let post of posts; let i = index"
-      class="list-group-item">
-    {{ i+1 }} - {{ post.title }}
-  </li>
-</ul>
+<div class="container">
+  <ul class="list-group">
+    <li *ngFor="let post of posts; let i = index"
+        class="list-group-item">
+      {{ i+1 }} - {{ post.title }}
+    </li>
+  </ul>
+</div>
