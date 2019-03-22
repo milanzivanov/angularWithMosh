@@ -27,24 +27,24 @@ export class PostsComponent implements OnInit {
       response => {
         // casting response to model interface
         this.posts = <ITemplate>response;
-        // this.posts = response as Template;
+        // this.posts = response as ITemplate;
       });
 
     }
 
-  //   createPost(input: HTMLInputElement) {
-  //     let post: any = {
-  //         title: input.value
-  //     };
-  //   input.value = '';
-  //   this.http.post(this.url, post)
-  //     .subscribe(response => {
-  //       post.id = response as Template;
-  //       // post['id'] = response;
-  //       this.posts.slice(0, 0, post);
-  //       console.log(response);
-  //     });
-  // }
+    createPost(input: HTMLInputElement) {
+      let post: any = {
+          title: input.value
+      };
+    input.value = '';
+    this.http.post(this.url, post)
+      .subscribe(response => {
+        post.id = response;
+        // post['id'] = response;
+        this.posts.splice(0, 0, post);
+        console.log(response);
+      });
+  }
 
 }
 
