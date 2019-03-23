@@ -46,13 +46,13 @@ export class PostsComponent implements OnInit {
       });
   }
 
-  // updatePost(post) {
-  //   this.http.put(this.url, JSON.stringify(post))
-  //   // this.http.patch(this.url + '/' + post.id, JSON.stringify({isRead: true}))
-  //     .subscribe( response => {
-  //       console.log(response);
-  //     })
-  // }
+  updatePost(post: ITemplate) {
+    // this.http.put(this.url, JSON.stringify(post))
+    this.http.patch(this.url + '/' + post.id, JSON.stringify({isRead: true}))
+      .subscribe( response => {
+        console.log('response:', response);
+      })
+  }
 
   delitePost(post: ITemplate) {
     this.http.delete(this.url + '/' + post.id)

@@ -11,6 +11,11 @@
   <ul class="list-group">
     <li *ngFor="let post of posts; let i = index"
         class="list-group-item">
+        <button
+          (click)="updatePost(post)"
+          class="btn btn-primary btn-small float-left mr-2">
+            Update
+        </button>
         {{ i+1 }} - {{ post.title }}
         <button
           (click)="delitePost(post)"
