@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { AppError } from './../app-error';
 import { Component, OnInit } from '@angular/core';
 import { ITemplate } from './../template';
 import { PostService } from '../services/post.service';
+import { NotFoundError } from '../not-found-error';
 
 
 
@@ -82,8 +83,8 @@ export class PostsComponent implements OnInit {
         console.log('index:', index)
         this.posts.splice(index, 1);
       },
-      (error: Response) => {
-        if (error.status === 404)
+      (error: AppError) => {
+        if (error instanceof NotFoundError)
           alert('This post has already delited.');
         else {
           alert('An unexpected error occuerd');

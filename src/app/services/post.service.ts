@@ -1,6 +1,10 @@
+import { AppError } from './../app-error';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ITemplate } from '../template';
+import { Observable, EMPTY, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { NotFoundError } from '../not-found-error';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +30,14 @@ export class PostService {
 
   delitePost(post: ITemplate) {
     return this.http.delete(this.url + '/' + post.id)
-  }
+    .pipe(
+      catchError((error: Response) => {
+        if (error.status === 404)
+          return Observable.throw(new NotFoundError());
 
+        return Observable.throw(new AppError(error));
+      })
+    )
+  };
 }
+
