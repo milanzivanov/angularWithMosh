@@ -1,3 +1,4 @@
+import { BadInput } from './../bad-input';
 import { AppError } from './../app-error';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -21,7 +22,15 @@ export class PostService {
   }
 
   createPost(post: ITemplate) {
-    return this.http.post(this.url, post);
+    return this.http.post(this.url, post)
+      .pipe(
+        catchError((error: Response) => {
+          if (error.status === 400)
+            return Observable.throw(new BadInput(error));
+
+          return Observable.throw(new AppError(error));
+        })
+      )
   }
 
   updatePost(post: ITemplate) {

@@ -1,3 +1,4 @@
+import { BadInput } from './../bad-input';
 import { AppError } from './../app-error';
 import { Component, OnInit } from '@angular/core';
 import { ITemplate } from './../template';
@@ -48,10 +49,11 @@ export class PostsComponent implements OnInit {
           this.posts.splice(0, 0, post);
           console.log(response);
         },
-        (error: Response) => {
-          if (error.status === 400) {
+        (error: AppError) => {
+          if (error instanceof BadInput) {
             // if we had forms
             // this.form.setErrors(error.json());
+            // this.form.setErrors(error.originalError);
           } else {
             alert('An unexpected error occuerd');
             console.log(error);
