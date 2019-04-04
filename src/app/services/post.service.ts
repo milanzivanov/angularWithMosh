@@ -3,7 +3,7 @@ import { AppError } from './../app-error';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ITemplate } from '../template';
-import { Observable, EMPTY, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { NotFoundError } from '../not-found-error';
 

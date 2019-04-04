@@ -28,12 +28,7 @@ export class PostsComponent implements OnInit {
         // casting response to model interface
         this.posts = <ITemplate>response;
         // this.posts = response as ITemplate;
-      },
-      error => {
-        alert('An unexpected error occuerd');
-        console.log(error);
-      }
-    );
+      });
   }
 
     createPost(input: HTMLInputElement) {
@@ -54,10 +49,8 @@ export class PostsComponent implements OnInit {
             // if we had forms
             // this.form.setErrors(error.json());
             // this.form.setErrors(error.originalError);
-          } else {
-            alert('An unexpected error occuerd');
-            console.log(error);
           }
+          else throw error;
         }
       );
     }
@@ -69,12 +62,7 @@ export class PostsComponent implements OnInit {
       .subscribe(
         response => {
           console.log('response:', response);
-        },
-        error => {
-          alert('An unexpected error occuerd');
-         console.log(error);
-        }
-      );
+        });
     }
 
   delitePost(post: ITemplate) {
@@ -88,10 +76,7 @@ export class PostsComponent implements OnInit {
       (error: AppError) => {
         if (error instanceof NotFoundError)
           alert('This post has already delited.');
-        else {
-          alert('An unexpected error occuerd');
-          console.log(error);
-        }
+        else throw error;
       }
     );
   }
