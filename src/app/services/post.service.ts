@@ -18,35 +18,40 @@ export class PostService {
   constructor(private http: HttpClient) { }
 
   getPosts() {
-    return this.http.get(`${this.url}${this.urlLimit}`);
+    return this.http.get(`${this.url}${this.urlLimit}`)
+      .pipe(
+        catchError(catchError(this.handleError))
+      );
   }
 
   createPost(post: ITemplate) {
     return this.http.post(this.url, post)
       .pipe(
-        catchError((error: Response) => {
-          if (error.status === 400)
-            return Observable.throw(new BadInput(error));
-
-          return Observable.throw(new AppError(error));
-        })
-      )
+        catchError(catchError(this.handleError))
+      );
   }
 
   updatePost(post: ITemplate) {
-    return this.http.patch(this.url + '/' + post.id, JSON.stringify({isRead: true}));
+    return this.http.patch(this.url + '/' + post.id, JSON.stringify({isRead: true}))    .pipe(
+      catchError(this.handleError));
   }
 
   delitePost(post: ITemplate) {
     return this.http.delete(this.url + '/' + post.id)
     .pipe(
-      catchError((error: Response) => {
-        if (error.status === 404)
-          return Observable.throw(new NotFoundError());
-
-        return Observable.throw(new AppError(error));
-      })
-    )
+      catchError(this.handleError));
   };
+
+
+  private handleError(error: Response) {
+
+    if (error.status === 400)
+      return Observable.throw(new BadInput(error));
+
+    if (error.status === 404)
+      return Observable.throw(new NotFoundError());
+
+    return Observable.throw(new AppError(error));
+  }
 }
 
