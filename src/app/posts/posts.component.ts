@@ -35,16 +35,20 @@ export class PostsComponent implements OnInit {
       let post: any = {
           title: input.value
       };
-    input.value = '';
+      this.posts.splice(0, 0, post);
+
+      input.value = '';
+
       this.service.create(post)
       .subscribe(
         response => {
           post.id = response;
           // post['id'] = response;
-          this.posts.splice(0, 0, post);
           console.log(response);
         },
         (error: AppError) => {
+          this.posts.splice(0, 1);
+
           if (error instanceof BadInput) {
             // if we had forms
             // this.form.setErrors(error.json());
@@ -66,14 +70,16 @@ export class PostsComponent implements OnInit {
     }
 
   delitePost(post: ITemplate) {
+    let index = this.posts.indexOf(post);
+    console.log('index:', index)
+    this.posts.splice(index, 1);
+
     this.service.delite(post)
     .subscribe(
-      response => {
-        let index = this.posts.indexOf(post);
-        console.log('index:', index)
-        this.posts.splice(index, 1);
-      },
+      null,
       (error: AppError) => {
+        this.posts.splice(index, 0, post);
+
         if (error instanceof NotFoundError)
           alert('This post has already delited.');
         else throw error

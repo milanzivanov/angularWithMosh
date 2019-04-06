@@ -26,6 +26,9 @@ export class DataService {
   }
 
   create(resource: ITemplate) {
+    // failed scenario
+    // return Observable.throw(new AppError);
+
     return this.http.post(this.url, resource)
       .pipe(
         catchError(catchError(this.handleError))
@@ -38,6 +41,9 @@ export class DataService {
   }
 
   delite(post: ITemplate) {
+    // failed scenario
+    // return Observable.throw(new AppError);
+
     return this.http.delete(this.url + '/' + post.id)
     .pipe(
       catchError(this.handleError));
