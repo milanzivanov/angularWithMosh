@@ -22,7 +22,7 @@ export class PostsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.service.getPosts()
+    this.service.getAll()
     .subscribe(
       response => {
         // casting response to model interface
@@ -36,7 +36,7 @@ export class PostsComponent implements OnInit {
           title: input.value
       };
     input.value = '';
-      this.service.createPost(post)
+      this.service.create(post)
       .subscribe(
         response => {
           post.id = response;
@@ -58,7 +58,7 @@ export class PostsComponent implements OnInit {
   updatePost(post: ITemplate) {
     // this.http.put(this.url, JSON.stringify(post))
     // this.http.patch(this.url + '/' + post.id, JSON.stringify({isRead: true}))
-    this.service.updatePost(post)
+    this.service.update(post)
       .subscribe(
         response => {
           console.log('response:', response);
@@ -66,7 +66,7 @@ export class PostsComponent implements OnInit {
     }
 
   delitePost(post: ITemplate) {
-    this.service.delitePost(post)
+    this.service.delite(post)
     .subscribe(
       response => {
         let index = this.posts.indexOf(post);
@@ -76,7 +76,7 @@ export class PostsComponent implements OnInit {
       (error: AppError) => {
         if (error instanceof NotFoundError)
           alert('This post has already delited.');
-        else throw error;
+        else throw error
       }
     );
   }
